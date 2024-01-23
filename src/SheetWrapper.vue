@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, provide, ref, shallowReactive, watchEffect } from 'vue'
-import { TransitionPresets, usePreferredColorScheme, useThrottleFn, useTransition } from '@vueuse/core'
+import { TransitionPresets, usePreferredColorScheme, useThrottleFn, useTransition, defaultWindow } from '@vueuse/core'
 import { vOnClickOutside } from '@vueuse/components'
 import { interpolateRgb } from 'd3-interpolate'
 import { iosBottomSheet, iosBottomSheetEventBus } from '.'
@@ -131,7 +131,7 @@ function onDragStart(e: PointerEvent) {
   dragStartPos.value = { x: e.clientX, y: e.clientY }
 }
 
-let lastEventTime = window.performance.now()
+let lastEventTime = defaultWindow.performance.now()
 let lastEventY = 0
 let speedY = 0
 let timerId: number | null = null
@@ -150,7 +150,7 @@ function onDrag(e: PointerEvent) {
   // if not dragging, return
   if (!isDragging.value)
     return
-  const currentEventTime = window.performance.now()
+  const currentEventTime = defaultWindow.performance.now()
   const timeDifference = currentEventTime - lastEventTime
   const dy = e.clientY - lastEventY
   speedY = dy / timeDifference // speed in px/ms
@@ -161,7 +161,7 @@ function onDrag(e: PointerEvent) {
   lastEventTime = currentEventTime
   lastEventY = e.clientY
   const diff = e.clientY - dragStartPos.value.y
-  const height = window.innerHeight
+  const height = defaultWindow.innerHeight
   progress.value = diff / height
   // clear previous timer
   if (timerId !== null)
