@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, provide, ref, shallowReactive, watchEffect } from 'vue'
-import { TransitionPresets, defaultWindow, usePreferredColorScheme, useThrottleFn, useTransition } from '@vueuse/core'
+import { TransitionPresets, defaultDocument, defaultWindow, usePreferredColorScheme, useThrottleFn, useTransition } from '@vueuse/core'
 import { vOnClickOutside } from '@vueuse/components'
 import { interpolateRgb } from 'd3-interpolate'
 import { iosBottomSheet, iosBottomSheetEventBus } from '.'
@@ -137,7 +137,7 @@ let speedY = 0
 let timerId: number | null = null
 const touchStartY = ref(0)
 const currentEl = computed(() => {
-  return document.querySelector(`[data-index="${length.value - 1}"]`) as HTMLDivElement | null
+  return defaultDocument.querySelector(`[data-index="${length.value - 1}"]`) as HTMLDivElement | null
 })
 const scrollable = computed(() => {
   return currentEl.value && currentEl.value.scrollHeight > currentEl.value.clientHeight
@@ -194,11 +194,11 @@ function touchMove(event: TouchEvent) {
 }
 watchEffect(() => {
   if (data.length > 1) {
-    document.addEventListener('touchstart', touchStart, { passive: false })
-    document.addEventListener('touchmove', touchMove, { passive: false })
+    defaultDocument.addEventListener('touchstart', touchStart, { passive: false })
+    defaultDocument.addEventListener('touchmove', touchMove, { passive: false })
   }
   else {
-    document.removeEventListener('touchmove', touchMove)
+    defaultDocument.removeEventListener('touchmove', touchMove)
   }
 })
 const baseRef = ref<HTMLElement | null>(null)
