@@ -16,7 +16,8 @@
     "preview": "vite preview",
     "build-demo": "cd demo && vite build",
     "preview-demo": "cd demo && vite preview",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "prepare": "vue-tsc && vite build"
   },
   "peerDependencies": {
     "vue": "^3.0.0"
